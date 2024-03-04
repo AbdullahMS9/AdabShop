@@ -92,7 +92,6 @@ const ProductScreen = () => {
                                                                     </option>
                                                                 ))}
                                                             </Form.Control>
-
                                                         </Col>
                                                     </Row>
                                                 </ListGroup.Item>
