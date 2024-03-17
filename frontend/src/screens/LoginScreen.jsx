@@ -27,7 +27,7 @@ const LoginScreen = () => {
                     </Form.Control>
                 </Form.Group>
                 
-                <Form.Group controlIdpassword='password' className="my-3">
+                <Form.Group controlId='password' className="my-3">
                     <Form.Label>Password </Form.Label>
                     <Form.Control
                         type='password'
