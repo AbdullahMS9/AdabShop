@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Row, Col, Image, ListGroup, Card, Form, Button } from "react-bootstrap";
+import { Row, Col, Image, ListGroup, Card, Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { toast } from 'react-toastify';
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
@@ -77,11 +77,12 @@ const OrderScreen = () => {
         });
     };
 
+    /**
     async function onApproveTest() {
         await payOrder({ orderId, details: { payer: {} } });
         refetch();
         toast.success('Payment Successful');
-    };
+    };  */
 
     function onError(error) {
         toast.error(error.message);
@@ -116,7 +117,9 @@ const OrderScreen = () => {
   return isLoading ? (
     <Loader/>
   ) : error ? (
-    <Message variant='danger' />
+    <Message variant='danger'>
+        {error.data.message}
+    </Message>
   ) : (
     <>
         <h1>Order {order._id}</h1>
@@ -158,18 +161,29 @@ const OrderScreen = () => {
 
                     <ListGroup.Item>
                         <h2>Order Items</h2>
-                        {order.orderItems.map((item, index) => (
-                            <ListGroup.Item key={index}>
-                                <Row>
-                                    <Col md={1}>
-                                        <Image src={item.image} alt={item.name} fluid rounded />
-                                    </Col>
-                                    <Col md={4}>
-                                        {item.qty} x ${item.price} = ${item.qty * item.price}
-                                    </Col>
-                                </Row>
-                            </ListGroup.Item>
-                        ))}
+                        {order.orderItems.length === 0 ? (
+                            <Message>Order is empty</Message>
+                        ) : (
+                            <ListGroup variant='flush'>
+                                {order.orderItems.map((item, index) => (
+                                    <ListGroup.Item key={index}>
+                                        <Row>
+                                            <Col md={1}>
+                                                <Image src={item.image} alt={item.name} fluid rounded />
+                                            </Col>
+                                            <Col>
+                                                <Link to={`/product/${item.product}`}>
+                                                    {item.name}
+                                                </Link>
+                                            </Col>
+                                            <Col md={4}>
+                                                {item.qty} x ${item.price} = ${item.qty * item.price}
+                                            </Col>
+                                        </Row>
+                                    </ListGroup.Item>
+                                ))}
+                            </ListGroup>
+                        )}
                     </ListGroup.Item>
                 </ListGroup>
             </Col>
