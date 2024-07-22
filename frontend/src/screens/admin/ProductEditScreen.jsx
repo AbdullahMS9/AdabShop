@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, /*useNavigate,*/ useParams } from 'react-router-dom';
 import { Form, Button } from "react-bootstrap";
 import Message from "../../components/Message";
 import Loader from "../../components/Loader";
@@ -36,7 +36,7 @@ const ProductEditScreen = () => {
 
     const [uploadProductImage, {isLoading: loadingUpload}] = useUploadProductImageMutation();
 
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
 
     useEffect(() => {
         if (product) {
@@ -52,23 +52,22 @@ const ProductEditScreen = () => {
 
     const submitHandler = async (e) => {
         e.preventDefault();
-        const updatedProduct = {
-            productId,
-            name,
-            price,
-            image,
-            brand,
-            countInStock,
-            category,
-            description
-        };
-
-        const result = await editProduct(updatedProduct);
-        if (result.error) {
-            toast.error(result.error);
-        } else {
+        try {
+            await editProduct({
+                productId,
+                name,
+                price,
+                image,
+                brand,
+                category,
+                description,
+                countInStock,
+            }).unwrap();
             toast.success('Product Successfully Updated');
+            refetch();
             //navigate('/admin/productlist');
+        } catch (err) {
+            toast.error(err?.data?.message || err.error);
         }
     };
 
@@ -127,6 +126,7 @@ const ProductEditScreen = () => {
                             label='Choose file'
                             onChange={uploadFileHandler}
                         ></Form.Control>
+                        {loadingUpload && <Loader/>}
                     </Form.Group>
 
                     <Form.Group controlId="brand" className="my-2">
