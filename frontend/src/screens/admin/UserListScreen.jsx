@@ -12,7 +12,7 @@ const UserListScreen = () => {
 
     const deleteHandler = async(id) => {
         if(window.confirm('Delete user?')){
-            const user = users.filter((user) => user._id === id)[0];
+            const user = users.find((user) => user._id === id);
             if (user.isAdmin) {
                 toast.error('Cannot delete admin users');
             } else {
