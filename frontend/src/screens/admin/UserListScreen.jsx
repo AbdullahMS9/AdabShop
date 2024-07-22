@@ -12,12 +12,17 @@ const UserListScreen = () => {
 
     const deleteHandler = async(id) => {
         if(window.confirm('Delete user?')){
-            try {
-                await deleteUser(id);
-                toast.success('user deleted successfully');
-                refetch();
-            } catch (err) {
-                toast.error(err?.data?.message || err.error);
+            const user = users.filter((user) => user._id === id)[0];
+            if (user.isAdmin) {
+                toast.error('Cannot delete admin users');
+            } else {
+                try {
+                    await deleteUser(id);
+                    toast.success('user deleted successfully');
+                    refetch();
+                } catch (err) {
+                    toast.error(err?.data?.message || err.error);
+                }
             }
         }
     };
@@ -52,7 +57,7 @@ const UserListScreen = () => {
                   <td>{user.isAdmin ? <FaCheck style={{ color: 'green'}}/> : <FaTimes style={{ color: 'red'}}/>}</td>
                   <td>{user.createdAt.substring(0,10)}</td>
                   <td>
-                    <LinkContainer to={`admin/user/${user._id}/edit`}>
+                    <LinkContainer to={`/admin/user/${user._id}/edit`}>
                       <Button variant='success' className='btn-sm mx-2'>
                         <FaEdit style={{ color: 'white'}}/>
                       </Button>

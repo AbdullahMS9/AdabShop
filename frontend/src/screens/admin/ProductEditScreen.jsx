@@ -11,14 +11,6 @@ import {
     useUploadProductImageMutation, 
 } from "../../slices/productsApiSlice";
 
-/** 
- * After confirming update, 
- * reload is needed before 
- * returning to edit values 
- * again
-*/
-
-
 const ProductEditScreen = () => {
     const { id: productId } = useParams();
 
