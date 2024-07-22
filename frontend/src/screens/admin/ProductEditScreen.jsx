@@ -5,7 +5,11 @@ import Message from "../../components/Message";
 import Loader from "../../components/Loader";
 import FormContainer from '../../components/FormContainer';
 import { toast } from "react-toastify";
-import { useEditProductMutation, useGetProductDetailQuery, useUploadProductImageMutation } from "../../slices/productsApiSlice";
+import { 
+    useEditProductMutation, 
+    useGetProductDetailQuery, 
+    useUploadProductImageMutation, 
+} from "../../slices/productsApiSlice";
 
 /** 
  * After confirming update, 
