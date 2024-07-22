@@ -3,6 +3,7 @@ import {Row, Col} from 'react-bootstrap';
 import Product from '../components/Product';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
+import Paginate from '../components/Paginate';
 import { useGetProductsQuery } from '../slices/productsApiSlice';
 
 const HomeScreen = () => {
@@ -23,6 +24,7 @@ const HomeScreen = () => {
                         </Col>
                     ))}
                 </Row>
+                <Paginate pages={data.pages} page={data.page} />
               </>
             )
           )
