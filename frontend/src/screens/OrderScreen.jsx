@@ -118,7 +118,7 @@ const OrderScreen = () => {
     <Loader/>
   ) : error ? (
     <Message variant='danger'>
-        {error.data.message}
+        {error?.data?.message || error.error}
     </Message>
   ) : (
     <>

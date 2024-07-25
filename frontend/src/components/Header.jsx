@@ -7,6 +7,7 @@ import { useLogoutMutation } from '../slices/usersApiSlice';
 import { logout } from '../slices/authSlice';
 import SearchBox from './SearchBox';
 import Adab from '../assets/Adab.png';
+import { resetCart } from '../slices/cartSlice';
 //<img src={Adab} alt='Adab' width="200" height="100"/>
 
 const Header = () => {
@@ -23,6 +24,7 @@ const Header = () => {
         try {
             await logoutApiCall().unwrap();
             dispatch(logout());
+            dispatch(resetCart());
             navigate('/login');
         } catch (error) {
             console.log(error);
