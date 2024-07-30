@@ -140,11 +140,14 @@ const OrderScreen = () => {
                             {' '}{order.shippingAddress.postalCode},{' '}
                             {order.shippingAddress.country}
                         </p>
-                        {order.isDelivered ? (
-                            <Message variant='success'>Delivered on {order.deliveredAt}</Message>
-                        ) : (
-                            <Message variant='danger'>Not Delivered</Message>
-                        )}
+                        {order.isPaid 
+                            ? order.isDelivered 
+                                ? (
+                                    <Message variant='success'>Delivered on {order.deliveredAt}</Message>
+                                ) : (
+                                <Message variant='danger'>Delivery pending</Message>
+                            ) : <Message variant='danger'>Payment pending...</Message>
+                        }
                     </ListGroup.Item>
 
                     <ListGroup.Item>
@@ -155,7 +158,7 @@ const OrderScreen = () => {
                         {order.isPaid ? (
                             <Message variant='success'>Purchase date: {order.paidAt}</Message>
                         ) : (
-                            <Message variant='warning'>Select payment method under Order Summary</Message>
+                            <Message variant='warning'>Proceed with payment method under Order Summary</Message>
                         )}
                     </ListGroup.Item>
 
