@@ -53,7 +53,8 @@ const PlaceOrderScreen = () => {
                         <h2>Shipping</h2>
                         <p>
                             <strong>Address: </strong>
-                            {cart.shippingAddress.address}, {cart.shippingAddress.city}{' '}{cart.shippingAddress.postalCode},{' '}
+                            {cart.shippingAddress.address}, {cart.shippingAddress.city}, {cart.shippingAddress.stateAddress}
+                            {' '}{cart.shippingAddress.postalCode},{' '}
                             {cart.shippingAddress.country}
                         </p>
                     </ListGroup.Item>
@@ -89,7 +90,10 @@ const PlaceOrderScreen = () => {
                                             </Col>
 
                                             <Col md={4}>
-                                                {item.qty} x ${item.price} = ${item.qty*item.price}
+                                                {item.qty} x ${item.price} = ${
+                                                (!(Math.round(item.qty * item.price * 100)/100)%10===0 && (Math.round(item.qty * item.price * 100))%10===0)
+                                                    ?(Math.round(item.qty * item.price * 100)/100) + "0"
+                                                    :(Math.round(item.qty * item.price * 100)/100)}
                                             </Col>
                                         </Row>
                                     </ListGroup.Item>

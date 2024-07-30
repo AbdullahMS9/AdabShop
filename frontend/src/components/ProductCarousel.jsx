@@ -13,7 +13,12 @@ const ProductCarousel = () => {
         {products.map((product) => (
             <Carousel.Item key={product._id} >
                 <Link to={`/product/${product._id}`} class="d-flex justify-content-center">
-                    <Image src={product.image} alt={product.name} fluid width='50%' height='auto' />
+                    {(window.screen.width >= 1280) 
+                        ? (
+                            <Image src={product.image} alt={product.name} fluid width='50%' height='auto' />
+                        ) : (
+                            <Image src={product.image} alt={product.name} fluid width='100%' height='auto' />
+                        ) }
                     <Carousel.Caption className='carousel-caption'>
                         <h2>
                             {product.name} (${product.price})

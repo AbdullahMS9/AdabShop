@@ -136,8 +136,8 @@ const OrderScreen = () => {
                         </p>
                         <p>
                             <strong>Address: </strong>
-                            {order.shippingAddress.address}, {order.shippingAddress.city}{' '}
-                            {order.shippingAddress.postalCode},{' '}
+                            {order.shippingAddress.address}, {order.shippingAddress.city}, {order.shippingAddress.stateAddress}
+                            {' '}{order.shippingAddress.postalCode},{' '}
                             {order.shippingAddress.country}
                         </p>
                         {order.isDelivered ? (
@@ -155,7 +155,7 @@ const OrderScreen = () => {
                         {order.isPaid ? (
                             <Message variant='success'>Purchase date: {order.paidAt}</Message>
                         ) : (
-                            <Message variant='danger'>Payment Pending</Message>
+                            <Message variant='warning'>Select payment method under Order Summary</Message>
                         )}
                     </ListGroup.Item>
 
@@ -177,7 +177,7 @@ const OrderScreen = () => {
                                                 </Link>
                                             </Col>
                                             <Col md={4}>
-                                                {item.qty} x ${item.price} = ${item.qty * item.price}
+                                                {item.qty} x ${item.price} = ${(Math.round(item.qty * item.price * 100)/ 100).toFixed(2)}
                                             </Col>
                                         </Row>
                                     </ListGroup.Item>
@@ -197,19 +197,19 @@ const OrderScreen = () => {
                         <ListGroup.Item>
                             <Row>
                                 <Col>Items</Col>
-                                <Col>${order.itemsPrice}</Col>
+                                <Col>${ (!(order.itemsPrice%10===0) && order.itemsPrice*100%10===0) ? (order.itemsPrice + '0') : (order.itemsPrice) }</Col> 
                             </Row>
                             <Row>
                                 <Col>Shipping</Col>
-                                <Col>${order.shippingPrice}</Col>
+                                <Col>${ (!(order.shippingPrice%10===0) && order.shippingPrice*100%10===0) ? (order.shippingPrice + '0') : (order.shippingPrice) }</Col>
                             </Row>
                             <Row>
                                 <Col>Tax</Col>
-                                <Col>${order.taxPrice}</Col>
+                                <Col>${ (!(order.taxPrice%10===0) && order.taxPrice*100%10===0) ? (order.taxPrice + '0') : (order.taxPrice) }</Col>
                             </Row>
                             <Row>
                                 <Col>Total</Col>
-                                <Col>${order.totalPrice}</Col>
+                                <Col>${ (!(order.totalPrice%10===0) && order.totalPrice*100%10===0) ? (order.totalPrice + '0') : (order.totalPrice) }</Col>
                             </Row>
                         </ListGroup.Item>
                         {!order.isPaid && (     /** Pay Order Place Holder */
