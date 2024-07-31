@@ -10,6 +10,7 @@ const App = () => {
   return (
     <>  
       <Header/>
+      <h4><center><br/>Page in development...</center></h4>
       <main className='py-3'>
         <Container>
           <Outlet/>

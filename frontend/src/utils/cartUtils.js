@@ -8,7 +8,7 @@ export const updateCart = (state) => {
 
     state.shippingPrice = addDecimals(state.itemsPrice < 100 ? 10: 0);
 
-    state.taxPrice = addDecimals(Number((0.15 * state.itemsPrice).toFixed(2)));
+    state.taxPrice = addDecimals(Number((0 * state.itemsPrice).toFixed(2))); //disabled until needed
 
     state.totalPrice = (
         Number(state.itemsPrice) +
