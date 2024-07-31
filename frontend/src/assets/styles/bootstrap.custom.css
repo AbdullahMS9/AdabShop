@@ -12118,3 +12118,8 @@ fieldset:disabled .btn {
     display: none !important;
   }
 }
+
+.navbar,
+.navbar-default {
+    background-image: linear-gradient(to bottom,#283948 0,#011f3c 100%) !important; /* override background image gradient w/ flat color */
+}

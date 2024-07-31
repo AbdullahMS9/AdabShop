@@ -5,9 +5,11 @@ import {LinkContainer} from 'react-router-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLogoutMutation } from '../slices/usersApiSlice';
 import { logout } from '../slices/authSlice';
-import SearchBox from './SearchBox';
-import Adab from '../assets/Adab.png';
 import { resetCart } from '../slices/cartSlice';
+import SearchBox from './SearchBox';
+//import Adab from '../assets/Adab.png';
+import AdabNYClearBGLogoOnly from '../assets/AdabNYClearBGLogoOnly.png';
+import AdabNYClearBGNameOnly from '../assets/AdabNYClearBGNameOnly.png';
 
 const Header = () => {
     const { cartItems } = useSelector((state) => state.cart);
@@ -36,7 +38,13 @@ const Header = () => {
             <Container>
                 <LinkContainer to='/'>
                     <Navbar.Brand> 
-                        <img src={Adab} alt='Adab' width="250" height="40"/>
+                        {
+                            <>
+                            <img src={AdabNYClearBGLogoOnly} alt='Adab' width="150px" height="50px"/>
+                            <img src={AdabNYClearBGNameOnly} alt='Adab' width="150px" height="50px"/>
+                            </>
+                        }
+                        
                     </Navbar.Brand>
                 </LinkContainer>
                 <Navbar.Toggle aria-controls='basic-navbar-nav'/>
