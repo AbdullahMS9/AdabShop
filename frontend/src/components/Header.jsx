@@ -38,12 +38,19 @@ const Header = () => {
             <Container>
                 <LinkContainer to='/'>
                     <Navbar.Brand> 
-                        {
-                            <>
-                            <img src={AdabNYClearBGLogoOnly} alt='Adab' width="150px" height="50px"/>
-                            <img src={AdabNYClearBGNameOnly} alt='Adab' width="150px" height="50px"/>
-                            </>
+                        { (window.screen.width >= 1280)
+                            ? (
+                                <>
+                                    <img src={AdabNYClearBGLogoOnly} alt='Adab' width="115px" height="50px"/>
+                                </>
+                            ) : (
+                                <>
+                                    <img src={AdabNYClearBGLogoOnly} alt='Adab' width="100x" height="50px"/>
+                                </>
+                            )
+                            
                         }
+                                    <img src={AdabNYClearBGNameOnly} alt='Adab' width="150px" height="50px"/>
                         
                     </Navbar.Brand>
                 </LinkContainer>
