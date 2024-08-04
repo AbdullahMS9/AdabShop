@@ -39,10 +39,10 @@ const HomeScreen = () => {
                     )}
                 </Row>
 
-                <div class="d-flex justify-content-center">
+                <div className="d-flex justify-content-center">
                   <Paginate pages={data.pages} page={data.page} keyword={keyword ? keyword : ''}/>
                 </div>
-                <div class="d-flex justify-content-center">
+                <div className="d-flex justify-content-center">
                   <Image className='mb-4' src={VialsBannerHD} alt={' '} width='100%' height='auto' />
                 </div>
               </>

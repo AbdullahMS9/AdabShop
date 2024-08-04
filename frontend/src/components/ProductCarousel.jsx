@@ -12,7 +12,7 @@ const ProductCarousel = () => {
     <Carousel pause='hover' className='bg-primary mb-4'>
         {products.map((product) => (
             <Carousel.Item key={product._id} >
-                <Link to={`/product/${product._id}`} class="d-flex justify-content-center">
+                <Link to={`/product/${product._id}`} className="d-flex justify-content-center">
                     {(window.screen.width >= 1280) 
                         ? (
                             <Image src={product.image} alt={product.name} fluid width='50%' height='auto' />
