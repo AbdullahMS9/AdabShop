@@ -9,7 +9,8 @@ import {
     getUsers,
     getUserById,
     deleteUser,
-    updateUser
+    updateUser,
+    authUserWithGoogle
 } from '../controllers/userController.js';
 import { protect, admin } from "../middleware/authMiddleware.js";
 
@@ -24,5 +25,6 @@ router.route('/:id').get(protect, admin, getUserById).put(protect, admin, update
 
 router.post('/auth', authUser);
 router.post('/logout', logoutUser);
+router.post('/auth/google', authUserWithGoogle);
 
 export default router;

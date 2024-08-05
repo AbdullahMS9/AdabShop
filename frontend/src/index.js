@@ -30,6 +30,7 @@ import ProductListScreen from './screens/admin/ProductListScreen';
 import ProductEditScreen from './screens/admin/ProductEditScreen';
 import UserListScreen from './screens/admin/UserListScreen';
 import UserEditScreen from './screens/admin/UserEditScreen';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -63,17 +64,21 @@ const router = createBrowserRouter(
   )
 )
 
+const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+
 const root = ReactDOM.createRoot(document.getElementById('root')); 
 root.render(
-  <React.StrictMode>
-    <HelmetProvider>
-      <Provider store={store}>
-        <PayPalScriptProvider deferLoading={true}>
-          <RouterProvider router={router}/>
-        </PayPalScriptProvider>
-      </Provider>
-    </HelmetProvider>
-  </React.StrictMode>
+  <GoogleOAuthProvider clientId={clientId}>
+    <React.StrictMode>
+      <HelmetProvider>
+        <Provider store={store}>
+          <PayPalScriptProvider deferLoading={true}>
+            <RouterProvider router={router}/>
+          </PayPalScriptProvider>
+        </Provider>
+      </HelmetProvider>
+    </React.StrictMode>
+  </GoogleOAuthProvider>
 );
 
 reportWebVitals();

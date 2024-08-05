@@ -1,7 +1,48 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import User from "../models/userModel.js";
 import generateToken from "../utils/generateToken.js";
+import { OAuth2Client } from 'google-auth-library';
 
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
+// @desc Auth User with Google & get token
+// @route POST /api/users/auth/google
+// @access Public
+const authUserWithGoogle = asyncHandler(async (req, res) => {
+    const { token } = req.body;
+
+    const ticket = await client.verifyIdToken({
+        idToken: token,
+        audience: process.env.GOOGLE_CLIENT_ID,
+    });
+
+    const { name, email, sub: googleId } = ticket.getPayload();
+
+    let user = await User.findOne({ googleId });
+
+    if (!user) {
+        user = await User.findOne({ email });
+        if (user) {
+            user.googleId = googleId;
+            await user.save();
+        } else {
+            user = await User.create({
+                name,
+                email,
+                googleId,
+            });
+        }
+    }
+
+    generateToken(res, user._id);
+
+    res.status(200).json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        isAdmin: user.isAdmin,
+    });
+});
 // @desc Auth User & get token
 // @route POST /api/users/login
 // @access Public
@@ -194,5 +235,6 @@ export {
     getUsers,
     getUserById,
     deleteUser,
-    updateUser
+    updateUser,
+    authUserWithGoogle
 };
