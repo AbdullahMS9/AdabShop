@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 import Message from "../components/Message";
 import Loader from "../components/Loader";
+import '../assets/styles/PictureSelector.css';
 import { 
     useGetOrderDetailsQuery, 
     usePayOrderMutation, 
@@ -55,15 +56,6 @@ const OrderScreen = () => {
             }            
         }
     }, [order, paypal, paypalDispatch, loadingPayPal, errorPayPal]); 
-
-    /*
-    const address = `${order.shippingAddress.address}, ${order.shippingAddress.city} 
-    ${order.shippingAddress.postalCode}, ${order.shippingAddress.country}`;
-
-    {order.shippingAddress.address}, {order.shippingAddress.city}{' '}
-    {order.shippingAddress.postalCode},{' '}
-    {order.shippingAddress.country}
-    */
    
     function onApprove(data, actions) {
         return actions.order.capture().then(async function (details) {
@@ -76,13 +68,6 @@ const OrderScreen = () => {
             }
         });
     };
-
-    /**
-    async function onApproveTest() {
-        await payOrder({ orderId, details: { payer: {} } });
-        refetch();
-        toast.success('Payment Successful');
-    };  */
 
     function onError(error) {
         toast.error(error.message);
@@ -112,6 +97,17 @@ const OrderScreen = () => {
         } catch (error) {
             toast.error(error?.data?.message || error.message);
         }
+    };
+
+    // Function to get image source based on mL size
+    const getImageSrc = (mL) => {
+        if (mL === 3) {
+            return "../uploads/3mLBottle.png"; // Image for 3mL
+        } else if (mL === 5) {
+            return "../uploads/image-1722436691313.png"; // Image for 5mL
+        }
+        // Add more conditions if there are other sizes
+        return ""; // Default empty string if no image is available
     };
 
   return isLoading ? (
@@ -169,21 +165,34 @@ const OrderScreen = () => {
                         ) : (
                             <ListGroup variant='flush'>
                                 {order.orderItems.map((item, index) => (
-                                    <ListGroup.Item key={index}>
-                                        <Row>
-                                            <Col md={1}>
-                                                <Image src={item.image} alt={item.name} fluid rounded />
-                                            </Col>
-                                            <Col>
-                                                <Link to={`/product/${item.product}`}>
-                                                    {item.name}
-                                                </Link>
-                                            </Col>
-                                            <Col md={4}>
-                                                {item.qty} x ${item.price} = ${(Math.round(item.qty * item.price * 100)/ 100).toFixed(2)}
-                                            </Col>
-                                        </Row>
-                                    </ListGroup.Item>
+                                    <Card key={index} className="my-1">
+                                        <ListGroup.Item>
+                                            <Row>
+                                                <Col md={1}>
+                                                    <Image src={item.image} alt={item.name} fluid rounded />
+                                                </Col>
+                                                <Col>
+                                                    <Link to={`/product/${item.product}`}>
+                                                        {item.name}
+                                                    </Link>
+                                                </Col>
+                                                <Col md={4}>
+                                                    {item.qty} x ${(item.price*item.mL/3).toFixed(2)} = ${(item.qty * item.price * item.mL/3).toFixed(2)}
+                                                </Col>
+                                            </Row>
+                                            <Row>
+                                                <Col md={1}>
+                                                    <Image fluid className="ml-option-img" src={getImageSrc(item.mL)} alt={`${item.mL}mL bottle`} />
+                                                </Col>
+                                                <Col md={2}>
+                                                    {item.mL}mL
+                                                </Col>
+                                                <Col>
+                                                    {(item.color) === 'lightgray' ? 'white' : item.color}
+                                                </Col>
+                                            </Row>
+                                        </ListGroup.Item>
+                                    </Card>
                                 ))}
                             </ListGroup>
                         )}
@@ -200,19 +209,19 @@ const OrderScreen = () => {
                         <ListGroup.Item>
                             <Row>
                                 <Col>Items</Col>
-                                <Col>${ (!(order.itemsPrice%10===0) && order.itemsPrice*100%10===0) ? (order.itemsPrice + '0') : (order.itemsPrice) }</Col> 
+                                <Col>${ order.itemsPrice.toFixed(2) }</Col> 
                             </Row>
                             <Row>
                                 <Col>Shipping</Col>
-                                <Col>${ (!(order.shippingPrice%10===0) && order.shippingPrice*100%10===0) ? (order.shippingPrice + '0') : (order.shippingPrice) }</Col>
+                                <Col>${ order.shippingPrice.toFixed(2) }</Col>
                             </Row>
                             <Row>
                                 <Col>Tax</Col>
-                                <Col>${ (!(order.taxPrice%10===0) && order.taxPrice*100%10===0) ? (order.taxPrice + '0') : (order.taxPrice) }</Col>
+                                <Col>${ order.taxPrice.toFixed(2) }</Col>
                             </Row>
                             <Row>
                                 <Col>Total</Col>
-                                <Col>${ (!(order.totalPrice%10===0) && order.totalPrice*100%10===0) ? (order.totalPrice + '0') : (order.totalPrice) }</Col>
+                                <Col>${ order.totalPrice.toFixed(2) }</Col>
                             </Row>
                         </ListGroup.Item>
                         {!order.isPaid && (     /** Pay Order Place Holder */
@@ -221,13 +230,6 @@ const OrderScreen = () => {
 
                                 {isPending ? <Loader /> : (
                                     <div>
-                                        {/*
-                                            <Button
-                                            onClick={onApproveTest}
-                                            style={{ marginBottom: '10px' }}
-                                            >
-                                                Test Pay Order
-                                            </Button> */}
                                         <div>
                                             <PayPalButtons
                                                 createOrder={createOrder}

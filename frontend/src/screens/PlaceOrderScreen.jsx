@@ -8,6 +8,7 @@ import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { useCreateOrderMutation } from '../slices/ordersApiSlice';
 import { clearCartItems } from '../slices/cartSlice';
+import '../assets/styles/PictureSelector.css';
 
 const PlaceOrderScreen = () => {
     const navigate = useNavigate();
@@ -43,6 +44,17 @@ const PlaceOrderScreen = () => {
         console.log('place order button clicked');
     };
 
+    // Function to get image source based on mL size
+    const getImageSrc = (mL) => {
+        if (mL === 3) {
+            return "../uploads/3mLBottle.png"; // Image for 3mL
+        } else if (mL === 5) {
+            return "../uploads/image-1722436691313.png"; // Image for 5mL
+        }
+        // Add more conditions if there are other sizes
+        return ""; // Default empty string if no image is available
+    };
+
   return (
     <>
         <CheckoutSteps step1 step2 step3 step4 />
@@ -72,31 +84,41 @@ const PlaceOrderScreen = () => {
                         ) : (
                             <ListGroup variant='flush'>
                                 {cart.cartItems.map((item, index) => (
-                                    <ListGroup.Item key={index}>
-                                        <Row>
-                                            <Col md={1}>
-                                                <Image
-                                                    src={item.image}
-                                                    alt={item.name}
-                                                    fluid
-                                                    rounded
-                                                />
-                                            </Col>
+                                    <Card key={index} className='my-1'>
+                                        <ListGroup.Item>
+                                            <Row className='my-2'>
+                                                <Col md={1}>
+                                                    <Image
+                                                        src={item.image}
+                                                        alt={item.name}
+                                                        fluid
+                                                        rounded
+                                                    />
+                                                </Col>
 
-                                            <Col>
-                                                <Link to={`/product/${item._id}`}>
-                                                    {item.name}
-                                                </Link>
-                                            </Col>
+                                                <Col>
+                                                    <Link to={`/product/${item._id}`}>
+                                                        {item.name}
+                                                    </Link>
+                                                </Col>
 
-                                            <Col md={4}>
-                                                {item.qty} x ${item.price} = ${
-                                                (!(Math.round(item.qty * item.price * 100)/100)%10===0 && (Math.round(item.qty * item.price * 100))%10===0)
-                                                    ?(Math.round(item.qty * item.price * 100)/100) + "0"
-                                                    :(Math.round(item.qty * item.price * 100)/100)}
-                                            </Col>
-                                        </Row>
-                                    </ListGroup.Item>
+                                                <Col md={4}>
+                                                    {item.qty} x ${(item.price*item.mL/3).toFixed(2)} = ${(item.qty*item.price*item.mL/3).toFixed(2)}
+                                                </Col>
+                                            </Row>
+                                            <Row>
+                                                <Col md={1}>
+                                                    <Image fluid className="ml-option-img" src={getImageSrc(item.mL)} alt={`${item.mL}mL bottle`} />
+                                                </Col>
+                                                <Col md={1}>
+                                                    {item.mL}mL
+                                                </Col>
+                                                <Col>
+                                                    {(item.color) === 'lightgray' ? 'white' : item.color}
+                                                </Col>
+                                            </Row>
+                                        </ListGroup.Item>
+                                    </Card>
                                 ))}
                             </ListGroup>
                         )}

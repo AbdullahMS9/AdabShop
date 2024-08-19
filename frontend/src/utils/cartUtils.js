@@ -4,7 +4,7 @@ export const addDecimals = (num) => {
 
 export const updateCart = (state) => {
     //Price calculations
-    state.itemsPrice = addDecimals(state.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0));
+    state.itemsPrice = addDecimals(state.cartItems.reduce((acc, item) => acc + (item.price * item.mL)/3 * item.qty, 0));
 
     state.shippingPrice = addDecimals(state.itemsPrice < 100 ? 10: 0);
 
