@@ -30,6 +30,10 @@ const CartScreen = () => {
             return "../uploads/3mLBottle.png"; // Image for 3mL
         } else if (mL === 5) {
             return "../uploads/image-1722436691313.png"; // Image for 5mL
+        } else if (mL === 8) {
+            return "../uploads/8mLBottle.png"; // Image for 5mL
+        } else if (mL === 10) {
+            return "../uploads/10mLBottle.png"; // Image for 5mL
         }
         // Add more conditions if there are other sizes
         return ""; // Default empty string if no image is available
@@ -52,7 +56,7 @@ const CartScreen = () => {
                             {cartItems.map((item) => (
                                 <Card className='my-1' key={item._id}>
                                     <ListGroup.Item >
-                                        <Row>
+                                        <Row className='my-2'>
                                             <Col md={2}>
                                                 <Image src={item.image} alt={item.name} fluid rounded />
                                             </Col>
@@ -81,13 +85,12 @@ const CartScreen = () => {
                                                 </Button>
                                             </Col>
                                         </Row>
-                                        <Row>
-                                            <Col md={2} />
-                                            <Col md={4}>
-                                                <Image fluid className="ml-option-img" src={getImageSrc(item.mL)} alt={`${item.mL}mL bottle`} />
-                                                {item.mL}mL
+                                        <Row >
+                                            <Col md={2}  >
+                                                <Image fluid src={getImageSrc(item.mL)} alt={`${item.mL}mL bottle`} />
                                             </Col>
                                             <Col >
+                                                {item.mL}mL{' '}
                                                 {(item.color) === 'lightgray' ? 'white' : item.color}
                                             </Col>
                                         </Row>

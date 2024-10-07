@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Form, Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap';
@@ -23,6 +23,7 @@ const ProductScreen = () => {
     const [comment, setComment] = useState('');
     const [mL, setML] = useState(3);
     const [color, setColor] = useState('black'); // Default color
+    const [feature, setFeature] = useState('');
 
     const { data: product, 
         isLoading, refetch, error } = useGetProductDetailQuery(productId);
@@ -38,7 +39,7 @@ const ProductScreen = () => {
     const { userInfo } = useSelector((state) => state.auth);
 
     const addToCartHandler = () => {
-        dispatch(addToCart({...product, qty, mL, color }));
+        dispatch(addToCart({...product, qty, mL, color, feature }));
         navigate('/cart');
     };
 
@@ -58,6 +59,10 @@ const ProductScreen = () => {
             toast.error(err?.data?.message || err.error);
         }
     };
+
+    useEffect(() => {
+        window.scrollTo(0, 0); // Scrolls to the top of the page when the component is mounted
+    }, []);
 
     return (
         <>
@@ -113,33 +118,79 @@ const ProductScreen = () => {
                                                 <>
                                                     <ListGroup.Item>
                                                         <Row>
-                                                            <Col>Bottle Size/ mL:</Col>
+                                                            <Col>Select Bottle Size/ mL:</Col>
                                                         </Row>
                                                         <Row>
                                                             <Col>
                                                                 <div className="ml-options">
                                                                     <div
                                                                         className={`ml-option ${mL === 3 ? 'selected' : ''}`}
-                                                                        onClick={() => setML(3)}
+                                                                        onClick={() => {
+                                                                            setML(3);
+                                                                            setColor('black');
+                                                                            setFeature('None');
+                                                                        }}
                                                                     >
                                                                         <Image fluid src="../uploads/3mLBottle.png" className="ml-option-img"/>
-                                                                        3mL
+                                                                        3mL Clear Bottle
                                                                     </div>
 
                                                                     <div
-                                                                        className={`ml-option ${mL === 5 ? 'selected' : ''}`}
-                                                                        onClick={() => setML(5)}
+                                                                        className={`ml-option ${(mL === 5 && feature === '') 
+                                                                            ? 'selected' : ''}`}
+                                                                        
+                                                                        onClick={() => {
+                                                                            setML(5); 
+                                                                            setColor('black');
+                                                                            setFeature('');
+                                                                        }}
                                                                     >
-                                                                        <Image fluid src="../uploads/image-1722436691313.png" className="ml-option-img"/>
-                                                                        5mL
+                                                                        <Image fluid src="../uploads/5mLBottle.png" className="ml-option-img"/>
+                                                                        5mL Clear Bottle
+                                                                    </div>
+
+                                                                    <div
+                                                                        className={`ml-option ${(mL === 5 && feature ==='Refill') 
+                                                                            ? 'selected' : ''}`}
+                                                                        
+                                                                        onClick={() => {
+                                                                            setML(5); 
+                                                                            setColor('black');
+                                                                            setFeature('Refill');
+                                                                        }}
+                                                                    >
+                                                                        <Image fluid src="../uploads/5mLRefillBottle.png" className="ml-option-img"/>
+                                                                        5mL Refillable Bottle
+                                                                    </div>
+
+                                                                    <div
+                                                                        className={`ml-option ${(mL === 5 && feature === 'Colored') 
+                                                                            ? 'selected' : ''}`}
+                                                                        
+                                                                        onClick={() => {
+                                                                            setML(5); 
+                                                                            setColor('black');
+                                                                            setFeature('Colored');
+                                                                        }}
+                                                                    >
+                                                                        <Image fluid src="../uploads/5mLBottle.png" className="ml-option-img"/>
+                                                                        5mL Bottle
+                                                                    </div>
+
+                                                                    <div
+                                                                        className={`ml-option ${mL === 8 ? 'selected' : ''}`}
+                                                                        onClick={() => {setML(8); setColor('black');}}
+                                                                    >
+                                                                        <Image fluid src="../uploads/8mLBottle.png" className="ml-option-img"/>
+                                                                        8mL Retractable Bottle
                                                                     </div>
                                                                     
                                                                     <div
                                                                         className={`ml-option ${mL === 10 ? 'selected' : ''}`}
-                                                                        onClick={() => setML(10)}
+                                                                        onClick={() => {setML(10); setColor('black');}}
                                                                     >
                                                                         <Image fluid src="../uploads/10mLBottle.png" className="ml-option-img"/>
-                                                                        10mL
+                                                                        10mL Glass Bottle
                                                                     </div>
                                                                 </div>
                                                             </Col>
@@ -147,10 +198,10 @@ const ProductScreen = () => {
                                                     </ListGroup.Item>
 
                                                     {/* Conditionally Render Color Options */}
-                                                    {mL === 5 && ( // Show color options only if 5mL is selected
+                                                    {(mL === 5 && feature === 'Colored') && ( // Show color options only if 5mL is selected
                                                         <ListGroup.Item>
                                                             <Row>
-                                                                <Col>Color</Col>
+                                                                <Col>Bottle Color:</Col>
                                                             </Row>
                                                             <Row>
                                                                 <Col>
@@ -171,12 +222,50 @@ const ProductScreen = () => {
                                                                     {(color === 'lightgray') ? 'white' : color}
                                                                 </Col>
                                                             </Row>
+                                                            <Row>
+                                                                <div>
+                                                                    <label>
+                                                                        <input 
+                                                                        type="checkbox" 
+                                                                        checked={(mL===5) && color==='black'} 
+                                                                        onChange={() => setColor("black")} 
+                                                                        />
+                                                                        Black Refillable Bottle
+                                                                    </label>
+                                                                </div>
+                                                            </Row>
+                                                        </ListGroup.Item>
+                                                    )}
+                                                    {mL === 8 && ( // Show color options only if 5mL is selected
+                                                        <ListGroup.Item>
+                                                            <Row>
+                                                                <Col>Bottle Color:</Col>
+                                                            </Row>
+                                                            <Row>
+                                                                <Col>
+                                                                    <div className="color-options">
+                                                                        {['black', 'red', 'lightgray', 'blue'].map(c => (
+                                                                            <div
+                                                                                key={c}
+                                                                                className={`color-option ${color === c ? 'selected' : ''}`}
+                                                                                style={{ backgroundColor: c }}
+                                                                                onClick={() => setColor(c)}
+                                                                            />
+                                                                        ))}
+                                                                    </div>
+                                                                </Col>
+                                                            </Row>
+                                                            <Row className="text-center">
+                                                                <Col>
+                                                                    {(color === 'lightgray') ? 'white' : color}
+                                                                </Col>
+                                                            </Row>
                                                         </ListGroup.Item>
                                                     )}
                                                     {mL === 10 && ( // Show color options only if 10mL is selected
                                                         <ListGroup.Item>
                                                             <Row>
-                                                                <Col>Color</Col>
+                                                                <Col>Bottle Color:</Col>
                                                             </Row>
                                                             <Row>
                                                                 <Col>

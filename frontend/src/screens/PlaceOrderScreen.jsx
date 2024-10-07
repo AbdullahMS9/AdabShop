@@ -50,6 +50,10 @@ const PlaceOrderScreen = () => {
             return "../uploads/3mLBottle.png"; // Image for 3mL
         } else if (mL === 5) {
             return "../uploads/image-1722436691313.png"; // Image for 5mL
+        } else if (mL === 8) {
+            return "../uploads/8mLBottle.png"; // Image for 5mL
+        } else if (mL === 10) {
+            return "../uploads/10mLBottle.png"; // Image for 5mL
         }
         // Add more conditions if there are other sizes
         return ""; // Default empty string if no image is available
@@ -85,7 +89,7 @@ const PlaceOrderScreen = () => {
                             <ListGroup variant='flush'>
                                 {cart.cartItems.map((item, index) => (
                                     <Card key={index} className='my-1'>
-                                        <ListGroup.Item>
+                                        <ListGroup.Item >
                                             <Row className='my-2'>
                                                 <Col md={1}>
                                                     <Image
@@ -106,9 +110,9 @@ const PlaceOrderScreen = () => {
                                                     {item.qty} x ${(item.price*item.mL/3).toFixed(2)} = ${(item.qty*item.price*item.mL/3).toFixed(2)}
                                                 </Col>
                                             </Row>
-                                            <Row>
+                                            <Row >
                                                 <Col md={1}>
-                                                    <Image fluid className="ml-option-img" src={getImageSrc(item.mL)} alt={`${item.mL}mL bottle`} />
+                                                    <Image fluid rounded src={getImageSrc(item.mL)} alt={`${item.mL}mL bottle`} />
                                                 </Col>
                                                 <Col md={1}>
                                                     {item.mL}mL

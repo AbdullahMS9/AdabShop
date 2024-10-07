@@ -10,8 +10,9 @@ const orderSchema = mongoose.Schema({
         {
             name: { type: String, required: true},
             qty: { type: Number, required: true},
-            mL: { type: Number, required: true},
+            mL: { type: Number, required: false},
             color: {type: String, required: false},
+            feature: {type: String, required: false},
             image: { type: String, required: true},
             price: { type: Number, required: true},
             product: {

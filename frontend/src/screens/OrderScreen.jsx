@@ -105,6 +105,10 @@ const OrderScreen = () => {
             return "../uploads/3mLBottle.png"; // Image for 3mL
         } else if (mL === 5) {
             return "../uploads/image-1722436691313.png"; // Image for 5mL
+        } else if (mL === 8) {
+            return "../uploads/8mLBottle.png"; // Image for 5mL
+        } else if (mL === 10) {
+            return "../uploads/10mLBottle.png"; // Image for 5mL
         }
         // Add more conditions if there are other sizes
         return ""; // Default empty string if no image is available
@@ -167,7 +171,7 @@ const OrderScreen = () => {
                                 {order.orderItems.map((item, index) => (
                                     <Card key={index} className="my-1">
                                         <ListGroup.Item>
-                                            <Row>
+                                            <Row className="my-2">
                                                 <Col md={1}>
                                                     <Image src={item.image} alt={item.name} fluid rounded />
                                                 </Col>
@@ -182,7 +186,7 @@ const OrderScreen = () => {
                                             </Row>
                                             <Row>
                                                 <Col md={1}>
-                                                    <Image fluid className="ml-option-img" src={getImageSrc(item.mL)} alt={`${item.mL}mL bottle`} />
+                                                    <Image fluid src={getImageSrc(item.mL)} alt={`${item.mL}mL bottle`} />
                                                 </Col>
                                                 <Col md={2}>
                                                     {item.mL}mL
