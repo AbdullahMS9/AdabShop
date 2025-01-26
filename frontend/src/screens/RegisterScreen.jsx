@@ -7,6 +7,7 @@ import Loader from "../components/Loader";
 import { useRegisterMutation } from "../slices/usersApiSlice";
 import { setCredentials } from "../slices/authSlice";
 import { toast } from "react-toastify";
+import { GoogleLogin } from "@react-oauth/google";
 
 const RegisterScreen = () => {
     const [name, setName] = useState('');
@@ -47,6 +48,27 @@ const RegisterScreen = () => {
             }
         }
         
+    };
+
+    const handleGoogleSuccess = async (response) => {
+        try {
+            const res = await fetch('/api/users/auth/google', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ token: response.credential }),
+            });
+            const data = await res.json();
+            dispatch(setCredentials(data));
+            navigate(redirect);
+        } catch (error) {
+            toast.error('Google login failed');
+        }
+    };
+
+    const handleGoogleFailure = () => {
+        toast.error('Google login failed');
     };
 
     return(
@@ -103,6 +125,15 @@ const RegisterScreen = () => {
             </Form>
 
             <Row className="py-3">
+                <Col>
+                    <GoogleLogin
+                    onSuccess={handleGoogleSuccess}
+                    onError={handleGoogleFailure}
+                    />
+                </Col>
+            </Row>
+
+            <Row >
                 <Col>
                     Already have an account?{' '} 
                     <Link to={ redirect ? `/login?redirect=${redirect}` : '/login'}>Login</Link>

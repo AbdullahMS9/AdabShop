@@ -43,9 +43,9 @@ const ShippingScreen = () => {
                 >
                     <option>Select Country...</option>
                     <option value="United States of America">United States of America</option>
-                    <option value="Canada">Canada</option>
+                    {/*<option value="Canada">Canada</option>
                     <option value="United Kingdom">United Kingdom</option>
-                    <option value="Australia">Australia</option>
+                    <option value="Australia">Australia</option>*/}
                 </Form.Select>
             </Form.Group>
 
