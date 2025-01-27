@@ -149,6 +149,7 @@ const ProductScreen = () => {
                                                                         5mL Clear Bottle
                                                                     </div>
 
+                                                                    {/*
                                                                     <div
                                                                         className={`ml-option ${(mL === 5 && feature ==='Refill') 
                                                                             ? 'selected' : ''}`}
@@ -162,6 +163,7 @@ const ProductScreen = () => {
                                                                         <Image fluid src="../uploads/5mLRefillBottle.png" className="ml-option-img"/>
                                                                         5mL Refillable Bottle
                                                                     </div>
+                                                                    */}
 
                                                                     <div
                                                                         className={`ml-option ${(mL === 5 && feature === 'Colored') 
@@ -222,6 +224,7 @@ const ProductScreen = () => {
                                                                     {(color === 'lightgray') ? 'white' : color}
                                                                 </Col>
                                                             </Row>
+                                                            {/*
                                                             <Row>
                                                                 <div>
                                                                     <label>
@@ -234,6 +237,7 @@ const ProductScreen = () => {
                                                                     </label>
                                                                 </div>
                                                             </Row>
+                                                            */}
                                                         </ListGroup.Item>
                                                     )}
                                                     {mL === 8 && ( // Show color options only if 5mL is selected
