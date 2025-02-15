@@ -132,7 +132,7 @@ const ProductScreen = () => {
                                                                         }}
                                                                     >
                                                                         <Image fluid src="../uploads/3mLBottle.png" className="ml-option-img"/>
-                                                                        3mL Clear Bottle
+                                                                        3mL Vial
                                                                     </div>
 
                                                                     <div
@@ -142,11 +142,11 @@ const ProductScreen = () => {
                                                                         onClick={() => {
                                                                             setML(5); 
                                                                             setColor('black');
-                                                                            setFeature('');
+                                                                            setFeature('None');
                                                                         }}
                                                                     >
                                                                         <Image fluid src="../uploads/5mLBottle.png" className="ml-option-img"/>
-                                                                        5mL Clear Bottle
+                                                                        5mL Vial
                                                                     </div>
 
                                                                     {/*
@@ -163,7 +163,7 @@ const ProductScreen = () => {
                                                                         <Image fluid src="../uploads/5mLRefillBottle.png" className="ml-option-img"/>
                                                                         5mL Refillable Bottle
                                                                     </div>
-                                                                    */}
+                                                                    
 
                                                                     <div
                                                                         className={`ml-option ${(mL === 5 && feature === 'Colored') 
@@ -178,7 +178,7 @@ const ProductScreen = () => {
                                                                         <Image fluid src="../uploads/5mLBottle.png" className="ml-option-img"/>
                                                                         5mL Bottle
                                                                     </div>
-
+                                                                    
                                                                     <div
                                                                         className={`ml-option ${mL === 8 ? 'selected' : ''}`}
                                                                         onClick={() => {setML(8); setColor('black');}}
@@ -194,6 +194,7 @@ const ProductScreen = () => {
                                                                         <Image fluid src="../uploads/10mLBottle.png" className="ml-option-img"/>
                                                                         10mL Glass Bottle
                                                                     </div>
+                                                                    */}
                                                                 </div>
                                                             </Col>
                                                         </Row>
